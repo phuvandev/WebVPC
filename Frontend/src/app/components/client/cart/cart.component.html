@@ -1,0 +1,70 @@
+<!--shopping cart area start -->
+<div class="shopping_cart_area">
+    <div class="container"> 
+        <ng-container *ngIf="ListCart.length == 0">
+            <h1>Chưa có sản phẩm nào trong giỏ hàng...</h1>
+        </ng-container>
+        <ng-container *ngIf="ListCart.length > 0">
+            <h1>Giỏ hàng</h1>
+            <div class="row">
+                <div class="col-12">
+                    <div class="table_desc">
+                        <div class="cart_page table-responsive">
+                            <table class="">
+                                <thead>
+                                    <tr>
+                                        <th class="product_ordinal">STT</th>
+                                        <th class="product_thumb">Ảnh sản phẩm</th>
+                                        <th class="product_name">Tên sản phẩm</th>
+                                        <th class="product-price">Giá bán</th>
+                                        <th class="product_quantity">Số lượng</th>
+                                        <th class="product_total">Thành tiền</th>
+                                        <th class="product_remove">Xóa</th>
+                                    </tr>
+                                </thead>
+                                <tbody *ngFor="let item of ListCart, let i = index">
+                                    <tr>
+                                        <td class="product_ordinal">{{ i + 1 }}</td>
+                                        <td class="product_thumb">
+                                            <a routerLink = "/san-pham/{{ item.MaSP }}">
+                                                <img [src]="'data:image/jpg;base64,' + item.AnhDaiDien" alt="">
+                                            </a>
+                                        </td>
+                                        <td class="product_name">
+                                            <a routerLink = "/san-pham/{{ item.MaSP }}">{{ item.TenSP }}</a>
+                                        </td>
+                                        <td class="product-price">{{ item.GiaBan | currency:'VND':'' }}đ</td>
+                                        <td class="product_quantity">
+                                            <div class="input-group">
+                                                <button class="btn btn-sm btn-minus" (click)="reduct(item.MaSP)">
+                                                    <i class="fa fa-minus"></i>
+                                                </button>
+                                                <input type="text" readonly class="form-control text-center" value="{{ item.SoLuong }}">
+                                                <button class="btn btn-sm btn-plus" (click)="add(item.MaSP)">
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                        <td class="product_total">{{ item.SoLuong * item.GiaBan | currency:'VND':'' }}đ</td>
+                                        <td class="product_remove" (click)="delete(item.MaSP)">
+                                            <a><i class="fa fa-trash-o"></i></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>   
+                        </div>  
+                        <div style="display:flex; justify-content: space-between;">
+                            <div class="continue_shopping">
+                                <button routerLink = "/dong-san-pham/1">Tiếp tục mua hàng</button>
+                            </div>
+                            <div class="checkout_btn">
+                                <button (click)="goToCheckout()">Thanh toán</button>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</div>
+<!--shopping cart area end -->

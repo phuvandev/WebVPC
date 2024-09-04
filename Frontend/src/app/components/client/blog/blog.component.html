@@ -1,0 +1,41 @@
+<!--blog area start-->
+<div class="blog_page_section" #scroll>
+    <div class="container">
+        <div class="row">
+            <!--Tin tức chính-->
+            <div class="col-lg-12 col-md-12">
+                <div class="single_blog blog_list" *ngFor="let item of ListBlog | paginate: { itemsPerPage: pageSize, currentPage: p, totalItems: totalItems }">
+                    <div class="blog_thumb">
+                        <a routerLink="/tin-tuc/{{item.maTT}}">
+                            <img [src]="'data:image/jpg;base64,' + item.anhDaiDien" alt="">
+                        </a>
+                    </div>
+                    <div class="blog_content">
+                        <div class="blog_title">
+                            <h3><a routerLink="/tin-tuc/{{item.maTT}}">{{ item.tieuDe }}</a></h3>
+                        </div>
+                        <div class="blog_meta">                                       
+                            <span class="post_date"><i class="fa fa-calendar"></i> {{ item.ngayDang | date:'dd/MM/yyyy' }}</span>
+                            <span class="author"><i class="fa fa-user"></i> {{ item.hoTen }}</span>
+                        </div>
+                        <div class="blog_desc" [innerHTML]="limitText(item.noiDung, 400)">
+                        </div>
+                        <div class="readmore_button">
+                            <a routerLink="/tin-tuc/{{item.maTT}}">Đọc thêm</a>
+                        </div>
+                    </div>
+                </div>
+                <!--pagination start--> 
+                <div class="col-12">
+                    <div class="pagination justify-content-center">
+                        <pagination-controls class="pagination-controls" (pageChange)="getListBlog($event)" (pageBoundsCorrection)="getListBlog($event)" previousLabel="Trước" nextLabel="Sau">
+                        </pagination-controls>
+                    </div>
+                </div>
+                <!--pagination end--> 
+            </div>
+            <!--Tin tức chính-->
+        </div>
+    </div>
+</div>
+<!--blog area end-->

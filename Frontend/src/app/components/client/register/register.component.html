@@ -1,0 +1,62 @@
+<!-- customer login start -->
+<div class="customer_login">
+    <div class="container">
+        <div class="row justify-content-center ">
+           <!--register area start-->
+           <div class="col-lg-6 col-md-8">
+                <div class="account_form register">
+                    <h1>Đăng ký</h1>
+                    <form action="" method="post" [formGroup]="registerForm" (submit)="register()">
+                        <p>
+                            <label *ngIf="registerForm.controls['hoTen'].invalid && (registerForm.controls['hoTen'].touched || registerForm.controls['hoTen'].dirty)">
+                                <span *ngIf="registerForm.controls['hoTen'].errors?.['required']">(*) Vui lòng nhập vào trường này</span>
+                                <span *ngIf="registerForm.controls['hoTen'].errors?.['minlength']">(*) Nhập tối thiểu 5 ký tự</span>
+                            </label>
+                            <input type="text" placeholder="Họ và tên" formControlName="hoTen"/>
+                        </p>
+                        <p>
+                            <label *ngIf="registerForm.controls['taiKhoan'].invalid && (registerForm.controls['taiKhoan'].touched || registerForm.controls['taiKhoan'].dirty)">
+                                <span *ngIf="registerForm.controls['taiKhoan'].errors?.['required']">(*) Vui lòng nhập vào trường này</span>
+                                <span *ngIf="registerForm.controls['taiKhoan'].errors?.['minlength']">(*) Nhập tối thiểu 5 ký tự</span>
+                            </label>
+                            <input type="text" placeholder="Tài khoản" formControlName="taiKhoan"/>
+                        </p>
+                        <p>
+                            <label *ngIf="registerForm.controls['email'].invalid && (registerForm.controls['email'].touched || registerForm.controls['email'].dirty)">
+                                <span *ngIf="registerForm.controls['email'].errors?.['required']">(*) Vui lòng nhập vào trường này</span>
+                                <span *ngIf="registerForm.controls['email'].errors?.['pattern']">(*) Email không hợp lệ</span>
+                            </label>
+                            <input type="email" placeholder="Email" formControlName="email"/>
+                        </p>
+                        <p>
+                            <label *ngIf="registerForm.controls['matKhau'].invalid && (registerForm.controls['matKhau'].touched || registerForm.controls['matKhau'].dirty)">
+                                <span *ngIf="registerForm.controls['matKhau'].errors?.['required']">(*) Vui lòng nhập vào trường này</span>
+                                <span *ngIf="registerForm.controls['matKhau'].errors?.['pattern']">(*) Độ dài ít nhất 8 ký tự (chữ viết thường, in hoa, số, ký tự)</span>
+                            </label>
+                            <input type="password" placeholder="Mật khẩu" formControlName="matKhau"/>
+                        </p>
+                        <p>
+                            <label *ngIf="registerForm.controls['xacNhanMatKhau'].invalid && (registerForm.controls['xacNhanMatKhau'].touched || registerForm.controls['xacNhanMatKhau'].dirty)">
+                                <span *ngIf="registerForm.controls['xacNhanMatKhau'].errors?.['missMatch']">(*) Mật khẩu xác nhận không khớp</span>
+                            </label>
+                            <input type="password" placeholder="Xác nhận mật khẩu" formControlName="xacNhanMatKhau"/>
+                        </p>
+                        <p>
+                            <label *ngIf="registerForm.controls['sdt'].invalid && (registerForm.controls['sdt'].touched || registerForm.controls['sdt'].dirty)">
+                                <span *ngIf="registerForm.controls['sdt'].errors?.['required']">(*) Vui lòng nhập vào trường này</span>
+                                <span *ngIf="registerForm.controls['sdt'].errors?.['pattern']">(*) SĐT không hợp lệ</span>
+                            </label>
+                            <input type="tel" placeholder="Số điện thoại" formControlName="sdt"/>
+                        </p>
+                        <div class="login_submit">
+                            <button type="submit"><b>Đăng ký</b></button>
+                            <a routerLink="/dang-nhap">Bạn đã có tài khoản? Đăng nhập ngay!</a>
+                        </div>
+                    </form>
+                </div>    
+            </div>
+            <!--register area end-->
+        </div>
+    </div>    
+</div>
+<!-- customer login end -->

@@ -1,0 +1,26 @@
+<div class="contact_section">
+    <div class="contact_map">
+        <div class="container">
+            <h1>{{ DataContact.tieuDe }}</h1>
+            <div class="row">
+                <div class="col-12">
+                    <div class="mapouter">
+                        <div class="gmap_canvas">
+                            <iframe id="gmap_canvas" [src]="getSafeMapUrl(DataContact.googleMap)" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="contact_area">
+        <div class="container">   
+            <div class="row">
+                <div class="col-12">
+                    <div class="contact_content" [innerHTML]="DataContact.noiDung">
+                    </div>
+                </div>
+            </div>
+        </div>    
+    </div>
+</div>

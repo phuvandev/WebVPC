@@ -1,0 +1,17 @@
+E:\DATN\WebVPC\Backend\BLL\bin\Release\net6.0\BLL.deps.json
+E:\DATN\WebVPC\Backend\BLL\bin\Release\net6.0\BLL.dll
+E:\DATN\WebVPC\Backend\BLL\bin\Release\net6.0\BLL.pdb
+E:\DATN\WebVPC\Backend\BLL\bin\Release\net6.0\DAL.dll
+E:\DATN\WebVPC\Backend\BLL\bin\Release\net6.0\Model.dll
+E:\DATN\WebVPC\Backend\BLL\bin\Release\net6.0\DAL.pdb
+E:\DATN\WebVPC\Backend\BLL\bin\Release\net6.0\Model.pdb
+E:\DATN\WebVPC\Backend\BLL\obj\Release\net6.0\BLL.csproj.AssemblyReference.cache
+E:\DATN\WebVPC\Backend\BLL\obj\Release\net6.0\BLL.GeneratedMSBuildEditorConfig.editorconfig
+E:\DATN\WebVPC\Backend\BLL\obj\Release\net6.0\BLL.AssemblyInfoInputs.cache
+E:\DATN\WebVPC\Backend\BLL\obj\Release\net6.0\BLL.AssemblyInfo.cs
+E:\DATN\WebVPC\Backend\BLL\obj\Release\net6.0\BLL.csproj.CoreCompileInputs.cache
+E:\DATN\WebVPC\Backend\BLL\obj\Release\net6.0\BLL.csproj.CopyComplete
+E:\DATN\WebVPC\Backend\BLL\obj\Release\net6.0\BLL.dll
+E:\DATN\WebVPC\Backend\BLL\obj\Release\net6.0\refint\BLL.dll
+E:\DATN\WebVPC\Backend\BLL\obj\Release\net6.0\BLL.pdb
+E:\DATN\WebVPC\Backend\BLL\obj\Release\net6.0\ref\BLL.dll

@@ -1,0 +1,50 @@
+<!--blog area start-->
+<div class="blog_page_section">
+    <div class="container">
+        <div class="row">
+            <!--Tin tức chính-->
+            <div class="col-lg-8 col-md-12">
+                <div class="blog_details">
+                    <div class="blog_content">
+                        <div class="blog_title">
+                            <h3><a href="blog-details.html">{{ DataBlog.tieuDe }}</a></h3>
+                        </div>
+                        <div class="blog_meta">                                       
+                            <span class="post_date"><i class="fa fa-calendar"></i> {{ DataBlog.ngayDang | date:'dd/MM/yyyy' }}</span>
+                            <span class="author"><i class="fa fa-user"></i> {{ DataBlog.hoTen }}</span>
+                        </div>
+                    </div>
+                    <div class="blog_content">
+                        <div class="blog_desc custom-image2" [innerHTML]="DataBlog.noiDung">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Tin tức chính-->
+
+            <!--Tin tức khác-->
+            <div class="col-lg-4 col-md-12">
+                <div class="blog_sidebar_widget">
+                    <div class="widget_list widget_post">
+                        <div>
+                            <h3>Tin tức khác</h3>
+                        </div>
+                        <div class="post_wrapper" *ngFor="let item of ListRandom">
+                            <div class="post_thumb">
+                                <a routerLink="/tin-tuc/{{item.maTT}}">
+                                    <img [src]="'data:image/jpg;base64,' + item.anhDaiDien" alt="">
+                                </a>
+                            </div>
+                            <div class="post_info">
+                                <h3><a routerLink="/tin-tuc/{{item.maTT}}">{{ item.tieuDe.length > 60 ? (item.tieuDe | slice:0:60) + '...' : item.tieuDe }}</a></h3>
+                                <span><i class="fa fa-calendar"></i> {{ item.ngayDang | date:'dd/MM/yyyy' }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+            <!--Tin tức khác-->
+        </div>
+    </div>
+</div>
+<!--blog area end-->

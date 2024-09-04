@@ -1,0 +1,202 @@
+<!-- Main Content -->
+<div class="main-content">
+    <section class="section">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <div class="page-sub-header mb-4">
+                        <h4 class="page-title">Quản lý đơn hàng</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="col-7">
+                            <button class="btn btn-info btn-sm" title="Xem chi tiết đơn hàng" data-toggle="modal" data-target="#modal-detail" (click)="showDetail()">
+                                <i class="fas fa-eye"></i> Xem
+                            </button>
+                            <button class="btn btn-dark btn-sm" title="Xuất hóa đơn" (click)="exportToExcel()">
+                                <i class="fa fa-file-excel-o"></i> Xuất hóa đơn
+                            </button>
+                        </div>
+                        <div class="col-5">
+                            <div class="search_bar_admin">
+                                <input placeholder="Tìm kiếm tên khách hàng..." type="search" [(ngModel)]="search">
+                                <button type="button" (click)="getListOrder(1)"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body"  #scroll>
+                        <div class="section-title table-responsive">
+                            <table class="table jambo_table table-bordered table-hover text-center">
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Ngày đặt</th>
+                                        <th>Tên khách hàng</th>
+                                        <th>Khách phải trả</th>
+                                        <th>Thanh toán</th>
+                                        <th>Trạng thái</th>
+                                    </tr>
+                                </thead>
+                                <tbody *ngFor="let item of ListOrder | paginate: { itemsPerPage: pageSize, currentPage: p, totalItems: totalItems } ; let i = index">
+                                    <tr (click)="onRowClick(item)" [class.selected]="selectedRow === item">
+                                        <td>{{ totalItems - ((p - 1) * pageSize + i) }}</td>
+                                        <td>{{ item.ngayDat | date:'HH:mm:ss dd/MM/yyyy'  }}</td>
+                                        <td>{{ item.tenKH }}</td>
+                                        <td>{{ item.tongTien | currency:'VND':'' }}đ</td>
+                                        <td>{{ item.phuongThucThanhToan }}</td>
+                                        <td *ngIf="item.trangThai == 0">
+                                            <span class="badge badge-warning">Chưa xác thực</span>
+                                        </td>
+                                        <td *ngIf="item.trangThai == 1">
+                                            <span class="badge badge-success">Đã xác thực</span>
+                                        </td>
+                                        <td *ngIf="item.trangThai == 2">
+                                            <span class="badge badge-danger">Đã hủy</span>
+                                        </td>
+                                        <td *ngIf="item.trangThai == 3">
+                                            <span class="badge badge-success">Đã thanh toán</span>
+                                        </td>
+                                        <td *ngIf="item.trangThai == 4">
+                                            <span class="badge badge-success">Đang vận chuyển</span>
+                                        </td>
+                                        <td *ngIf="item.trangThai == 5">
+                                            <span class="badge badge-info">Đã hoàn thành</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--pagination start--> 
+                        <div class="col-12">
+                            <p style="font-size: 15px;">Tổng số bản ghi: <a style="color: red;">{{ totalItems }}</a></p>
+                            <div class="pagination justify-content-center">
+                                <pagination-controls class="pagination-controls" (pageChange)="getListOrder($event)" (pageBoundsCorrection)="getListOrder($event)" previousLabel="Trước" nextLabel="Sau">
+                                </pagination-controls>
+                            </div>
+                        </div>
+                        <!--pagination end--> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!--Form ẩn chi tiết-->
+    <div #modalDetail class="modal fade" id="modal-detail" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true" *ngIf="openModal">
+        <div class="modal-dialog modal-lg">
+            <form novalidate class="form-horizontal row-border">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5>Chi tiết đơn hàng</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cancel()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12 mb-4">
+                                <label><b>Đơn hàng:</b></label>
+                                <span style="color: #2F80ED">&nbsp; {{ MaDH }}</span>
+
+                                <div class="clearfix"></div>
+                                <label><b>Trạng thái: </b></label>&nbsp; 
+                                <span *ngIf="TrangThai == 0" class="badge badge-warning">Chưa xác thực</span>
+                                <span *ngIf="TrangThai == 1" class="badge badge-success">Đã xác thực</span>
+                                <span *ngIf="TrangThai == 2" class="badge badge-danger">Đã hủy</span>
+                                <span *ngIf="TrangThai == 3" class="badge badge-success">Đã thanh toán</span>
+                                <span *ngIf="TrangThai == 4" class="badge badge-success">Đang vận chuyển</span>
+                                <span *ngIf="TrangThai == 5" class="badge badge-info">Đã hoàn thành</span>
+
+                                <div class="clearfix"></div>
+                                <label><b>Ngày đặt: </b></label>
+                                <span>&nbsp; {{ NgayDat | date:'HH:mm:ss dd/MM/yyyy' }}</span>
+                                
+                                <div class="clearfix"></div>
+                                <label><b>Khách hàng:</b></label>
+                                <span>&nbsp; {{ TenKH }}</span>
+
+                                <div class="clearfix"></div>
+                                <label><b>Email:</b></label>
+                                <span>&nbsp; <a href="mailto:{{ Email }}">{{ Email }}</a></span>
+
+                                <div class="clearfix"></div>
+                                <label><b>Địa chỉ giao hàng:</b></label>
+                                <span>&nbsp; <a href="https://www.google.com/maps/search/?api=1&query={{ DiaChiGiaoHang }}">{{ DiaChiGiaoHang }}</a></span>
+                                
+                                <div class="clearfix"></div>
+                                <label><b>Điện thoại:</b></label>
+                                <span>&nbsp; <a href="tel:{{ SDT }}">{{ SDT }}</a></span>
+                                
+                                <div class="clearfix"></div>
+                                <label><b>Phương thức thanh toán:</b></label>
+                                <span>&nbsp; {{ PhuongThucThanhToan }}</span>
+
+                                <div class="clearfix"></div>
+                                <label><b>Ghi chú:</b></label>
+                                <span>&nbsp; {{ GhiChu }}</span>
+
+                                <div class="clearfix"></div>
+                                <label><b>Tổng hóa đơn:</b></label>
+                                <span class="text-danger">&nbsp; {{ TongTien | currency:'VND':'' }}đ</span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="section-title table-responsive">
+                                <table class="table jambo_table table-bordered table-hover text-center">
+                                    <thead>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>Tên sản phẩm</th>
+                                            <th>Ảnh</th>
+                                            <th>Số lượng</th>
+                                            <th>Giá bán</th>
+                                            <th>Thành tiền</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of ListOrderDetail; let i = index">
+                                            <td>{{ i+1 }}</td>
+                                            <td>{{ item.tenSP }}</td>
+                                            <td>
+                                                <img style="width: 100px;" [src]="'data:image/jpg;base64,' + item.anhDaiDien" alt="{{ item.tenSP }}">
+                                            </td>
+                                            <td>{{ item.soLuong }}</td>
+                                            <td>{{ item.giaBan | currency:'VND':'' }}đ</td>
+                                            <td>{{ item.soLuong * item.giaBan | currency:'VND':'' }}đ</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- TrangThai 0: chưa xác thực, -- 1: đã xác thực, -- 2: đã hủy, -- 3: đã thanh toán, -- 4: đang vận chuyển, -- 5: đã hoàn thành -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" (click)="check('cancel')" *ngIf="TrangThai == 0">
+                            <i class="fa fa-exclamation-triangle"></i> Hủy đơn
+                        </button>
+                        <button type="button" class="btn btn-success" (click)="check('confirm')" *ngIf="TrangThai == 0">
+                            <i class="fa fa-check"></i> Xác thực
+                        </button> 
+                        <button type="button" class="btn btn-success" (click)="check('ship')" *ngIf="TrangThai == 1 || TrangThai == 3">
+                            <i class="fa fa-truck"></i> Chuyển hàng
+                        </button>
+                        <button type="button" class="btn btn-info" (click)="check('paymentSuccess')" *ngIf="TrangThai == 4 || TrangThai == 5" [style.display]="TrangThai == 5 ? 'none' : 'block'">
+                            <i class="fa fa-money"></i> Đã hoàn thành
+                        </button>   
+                        <!-- <button type="button" class="btn btn-info" (click)="check('paymentSuccess')" *ngIf="TrangThai == 5 || TrangThai == 6" [style.display]="TrangThai == 6 ? 'none' : 'block'">
+                            <i class="fa fa-money"></i> Đã hoàn thành
+                        </button>         -->
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--Form ẩn END/ Chi tiết-->
+
+</div>
+<!-- Main Content -->

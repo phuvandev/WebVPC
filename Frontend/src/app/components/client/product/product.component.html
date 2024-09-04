@@ -1,0 +1,157 @@
+<!--single product wrapper start-->
+<div class="single_product_wrapper">
+    <div class="container">
+        <h1>Đồng hồ {{ DataProduct.tenDSP }} {{ DataProduct.tenSP }}</h1>
+        <div class="row">
+            <div class="col-lg-7 col-md-6">
+                <div class="product_gallery">
+                    <div class="produc_thumb_conatainer">
+                        <div class="modal_img">
+                            <img [src]="'data:image/jpg;base64,' + DataProduct.anhDaiDien" alt="{{ DataProduct.tenSP }}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5 col-md-6">
+                <div class="product_details">
+                    <h3>{{ DataProduct.tenSP }}</h3>
+                    <div class="pdBox">
+                        <ul>
+                            <li class="vendor">
+                                <a><i class="fa fa-gg"></i> Thương hiệu: </a>
+                                <span>Casio</span> 
+                            </li>
+                            <li class="type">
+                                <a><i class="fa fa-tags"></i> Loại: </a>
+                                <span>Đồng hồ</span> 
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="pdBox product_price">
+                        <a>Giá bán: </a><span class="current_price"> {{ DataProduct.giaSauGiam | currency:'VND':'' }}đ</span>
+                        &nbsp;<span class="old_price" *ngIf="DataProduct.phanTramGiamGia !== 0"><s>{{ DataProduct.giaBan | currency:'VND':'' }}đ</s></span>
+                    </div>
+                    <div class="pdBox">
+                        <h3>Thông số kỹ thuật</h3>
+                        <p><span class="pdLabelName">Kích thước: </span><span class="pdDescription">{{ DataProduct.kichThuoc }}</span></p>
+                        <p><span class="pdLabelName">Trọng lượng: </span><span class="pdDescription">{{ DataProduct.trongLuong }}</span></p>
+                        <p><span class="pdLabelName">Mặt kính: </span><span class="pdDescription">{{ DataProduct.matKinh }}</span></p>
+                        <p><span class="pdLabelName">Chất liệu dây: </span><span class="pdDescription">{{ DataProduct.chatLieuDay }}</span></p>
+                        <p><span class="pdLabelName">Chống nước: </span><span class="pdDescription">{{ DataProduct.chongNuoc }}</span></p>
+                        <p><span class="pdLabelName">Loại máy: </span><span class="pdDescription">{{ DataProduct.loaiMay }}</span></p>
+                    </div>
+                    <div class="product_details_action">
+                        <div class="product_stock">
+                            <label>Số lượng</label>
+                            <input type="number" min="1" max="{{ DataProduct.soLuong }}" value="{{ quantity }}" [(ngModel)]="quantity" (keydown)="preventInput($event)">
+                            <a>{{ DataProduct.soLuong }} sản phẩm có sẵn</a>
+                        </div>
+                        <div class="product_action_link">
+                            <ul>
+                                <li class="product_cart">
+                                    <a (click)="addToCart(DataProduct, quantity)" title="Thêm vào giỏ">Thêm vào giỏ</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--single product wrapper end-->
+
+<!--product info start-->
+<div class="product_d_info">
+    <div class="container">   
+        <div class="row">
+            <div class="col-12">
+                <div class="product_d_inner">   
+                    <div class="product_info_button">    
+                        <ul class="nav" role="tablist">
+                            <li >
+                                <a class="active" data-bs-toggle="tab" href="#info" role="tab" aria-controls="info" aria-selected="false">Thông tin thêm</a>
+                            </li>
+                            <!-- <li>
+                                <a data-bs-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">Reviews</a>
+                            </li> -->
+                        </ul>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="info" role="tabpanel" >
+                            <div class="product_info_content">
+                                <p [innerHTML]="DataProduct.moTa"></p>
+                            </div>    
+                        </div>
+                    </div>
+                </div>     
+            </div>
+        </div>
+    </div>    
+</div>  
+<!--product info end-->
+
+<!--product area start-->
+<div class="product_area">
+    <div class="container">
+        <div class="product_area_title">
+            <h3>Sản phẩm cùng loại</h3>
+        </div>
+        <div class="row">
+            <div class="product_active">
+                <owl-carousel-o [options]="productOptions">
+                    <ng-container  *ngFor="let item of ListSameCategory">
+                        <ng-template carouselSlide>
+                            <div class="single_product"> 
+                                <div class="product_thumb">
+                                    <a routerLink = "/san-pham/{{ item.maSP }}">
+                                        <img [src]="'data:image/jpg;base64,' + item.anhDaiDien" alt="">
+                                    </a>
+                                </div>
+                                <!-- <span class="product_label new">New</span>  -->
+                                <div class="product_content">
+                                    <h3><a routerLink = "/san-pham/{{ item.maSP }}">{{ item.tenSP }}</a></h3>
+                                    <div class="product_price">
+                                        <span class="current_price">{{ item.giaSauGiam | currency:'VND':'' }}đ</span>
+                                    </div>
+                                    <div class="product_action">
+                                        <ul>
+                                            <li class="product_cart">
+                                                <a (click)="addToCart(item, 1)" title="Thêm vào giỏ">Thêm vào giỏ</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>    
+                            </div>
+                        </ng-template>
+                    </ng-container>
+                </owl-carousel-o>
+            </div>
+        </div>  
+    </div>
+</div>
+<!--product area end-->
+
+<!--brand start-->
+<div class="brand_area">
+    <div class="container">
+        <div class="brand_inner">  
+            <div class="row">
+                <div class="brand_active">
+                    <owl-carousel-o [options]="categoryOptions">
+                        <ng-container *ngFor="let item of ListCategory">
+                            <ng-template carouselSlide>
+                                <div class="single_brand">
+                                    <a routerLink = "/dong-san-pham/{{ item.maDSP }}">
+                                        <img [src]="'data:image/jpg;base64,' + item.logo" alt="">
+                                    </a>
+                                </div>
+                            </ng-template>
+                        </ng-container>
+                    </owl-carousel-o>
+                </div>
+            </div>
+        </div>     
+    </div>
+</div>
+<!--brand end-->

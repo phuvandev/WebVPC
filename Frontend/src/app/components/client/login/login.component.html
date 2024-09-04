@@ -1,0 +1,27 @@
+<!-- customer login start -->
+<div class="customer_login">
+    <div class="container">
+        <div class="row justify-content-center ">
+           <!--login area start-->
+            <div class="col-lg-6 col-md-8">
+                <div class="account_form login">
+                    <h1>Đăng nhập</h1>
+                    <form action="" method="post" [formGroup]="loginForm" (submit)="login()">
+                        <p>
+                            <input type="text" placeholder="Tài khoản" formControlName="taiKhoan"/>
+                        </p>
+                        <p>
+                            <input type="password" placeholder="Mật khẩu" formControlName="matKhau"/>
+                        </p>
+                        <div class="login_submit">
+                            <button type="submit"><b>Đăng nhập</b></button>
+                            <a routerLink="/dang-ky">Bạn chưa có tài khoản? Đăng ký ngay!</a>
+                        </div>
+                    </form>
+                 </div>    
+            </div>
+            <!--login area start-->
+        </div>
+    </div>    
+</div>
+<!-- customer login end -->

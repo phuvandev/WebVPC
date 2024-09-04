@@ -1,0 +1,93 @@
+<!--shop wrapper start-->
+<div class="shop_wrapper shop_reverse">
+    <div class="container">
+        <h1>Đồng hồ Casio {{ DataCategory.tenDSP }}</h1>
+        <div class="row">
+            <div class="col-lg-3 col-md-12" #scroll>
+                <div class="sidebar_widget">
+                    <!--widget price start-->
+                    <div class="widget_list widget_price col-sm-8">
+                        <h3>Chọn mức giá</h3>
+                        <ul>
+                            <li><a (click)="filterByPrice(0, 1000000, 'Dưới 1 triệu')" [class.selected]="selectedPriceRange === 'Dưới 1 triệu'">Dưới 1 triệu</a></li>
+                            <li><a (click)="filterByPrice(1000000, 3000000, 'Từ 1 đến 3 triệu')" [class.selected]="selectedPriceRange === 'Từ 1 đến 3 triệu'">Từ 1 đến 3 triệu</a></li>
+                            <li><a (click)="filterByPrice(3000000, 5000000, 'Từ 3 đến 5 triệu')" [class.selected]="selectedPriceRange === 'Từ 3 đến 5 triệu'">Từ 3 đến 5 triệu</a></li>
+                            <li><a (click)="filterByPrice(5000000, 7000000, 'Từ 5 đến 7 triệu')" [class.selected]="selectedPriceRange === 'Từ 5 đến 7 triệu'">Từ 5 đến 7 triệu</a></li>
+                            <li><a (click)="filterByPrice(7000000, 10000000, 'Từ 7 đến 10 triệu')" [class.selected]="selectedPriceRange === 'Từ 7 đến 10 triệu'">Từ 7 đến 10 triệu</a></li>
+                            <li><a (click)="filterByPrice(10000000, null, 'Trên 10 triệu')" [class.selected]="selectedPriceRange === 'Trên 10 triệu'">Trên 10 triệu</a></li>
+                        </ul>
+                    </div>
+                    <!--widget price end-->
+                    <!--widget water_resistance start-->
+                    <div class="widget_list water_resistance col-sm-8">
+                        <h3>Chống nước</h3>
+                        <ul>
+                            <li><a (click)="filterByChongNuoc('Đi tắm (5 ATM)', 'Đi tắm (5 ATM)')" [class.selected]="selectedWaterResistance === 'Đi tắm (5 ATM)'">Đi tắm (5 ATM)</a></li>
+                            <li><a (click)="filterByChongNuoc('Đi bơi (10 ATM)', 'Đi bơi (10 ATM)')" [class.selected]="selectedWaterResistance === 'Đi bơi (10 ATM)'">Đi bơi (10 ATM)</a></li>
+                            <li><a (click)="filterByChongNuoc('Lặn biển (20 ATM)', 'Lặn biển (20 ATM)')" [class.selected]="selectedWaterResistance === 'Lặn biển (20 ATM)'">Lặn biển (20 ATM)</a></li>
+                        </ul>
+                    </div>
+                    <!--widget water_resistance end-->
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-12">
+                <!--shop toolbar start-->
+                <div class="shop_toolbar">
+                    <div class="select_option">
+                        <form>
+                            <select (change)="onSelectFilter($event)" name="change" [(ngModel)]="change">
+                                <option value="1">Mới cập nhật</option>
+                                <option value="2">Giá tăng dần</option>
+                                <option value="3">Giá giảm dần</option>
+                            </select>
+                        </form>
+                    </div>
+                </div>
+                <!--shop toolbar end-->
+
+                <!--shop tab product-->
+                <div class="shop_product">
+                    <div class="row" *ngIf="ListProduct && ListProduct.length > 0; else noProducts">
+                        <div class="col-lg-4 col-md-4 col-sm-6" *ngFor="let item of ListProduct | paginate: { itemsPerPage: pageSize, currentPage: p, totalItems: totalItems }">
+                            <div class="single_product">
+                                <div class="product_thumb">
+                                    <a routerLink="/san-pham/{{ item.maSP }}">
+                                        <img [src]="'data:image/jpg;base64,' + item.anhDaiDien" alt="">
+                                    </a>
+                                </div>
+                                <div class="product_content">
+                                    <h3><a routerLink="/san-pham/{{ item.maSP }}">{{ item.tenSP }}</a></h3>
+                                    <div class="product_price">
+                                        <span class="current_price">{{ item.giaSauGiam | currency:'VND':'' }}đ</span>
+                                    </div>
+                                    <div class="product_action">
+                                        <ul>
+                                            <li class="product_cart">
+                                                <a (click)="addToCart(item.maSP)" title="Thêm vào giỏ">Thêm vào giỏ</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Template to display when no products are available -->
+                    <ng-template #noProducts>
+                        <h1>Không có sản phẩm phù hợp</h1>
+                    </ng-template>
+                </div>
+                <!--shop tab product end-->
+
+                <!--pagination start-->
+                <div class="col-12" *ngIf="totalItems > 0">
+                    <div class="pagination justify-content-center">
+                        <pagination-controls class="pagination-controls" (pageChange)="getListProduct($event)" (pageBoundsCorrection)="getListProduct($event)" previousLabel="Trước" nextLabel="Sau">
+                        </pagination-controls>
+                    </div>
+                </div>
+                <!--pagination end-->
+            </div>
+        </div>
+    </div>
+</div>
+<!--shop wrapper end-->

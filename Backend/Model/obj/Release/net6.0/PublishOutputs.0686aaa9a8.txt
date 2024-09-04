@@ -1,0 +1,6 @@
+E:\DATN\WebVPC\Backend\publish\Model.dll
+E:\DATN\WebVPC\Backend\publish\Model.deps.json
+E:\DATN\WebVPC\Backend\publish\Model.pdb
+E:\DATN\WebVPC\Backend\publish\Microsoft.AspNetCore.Http.Features.dll
+E:\DATN\WebVPC\Backend\publish\Microsoft.Extensions.Primitives.dll
+E:\DATN\WebVPC\Backend\publish\System.IO.Pipelines.dll

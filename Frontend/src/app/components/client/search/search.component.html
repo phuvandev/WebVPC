@@ -1,0 +1,48 @@
+<!--search area-->
+<div class="shop_wrapper search_area" #scroll>
+    <div class="container">
+        <h1>Kết quả tìm kiếm của '{{ key }}'</h1>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="shop_product">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-4 col-sm-6" *ngFor="let item of ListResult | paginate: { itemsPerPage: pageSize, currentPage: p, totalItems: totalItems }"> 
+                            <div class="single_product"> 
+                                <div class="product_thumb">
+                                    <a routerLink = "/san-pham/{{ item.maSP }}">
+                                        <img [src]="'data:image/jpg;base64,' + item.anhDaiDien" alt="{{ item.tenSP }}">
+                                    </a>
+                                </div>
+                                <div class="product_content">
+                                    <h3><a routerLink = "/san-pham/{{ item.maSP }}">{{ item.tenSP }}</a></h3>
+                                    <div class="product_price">
+                                        <span class="current_price">{{ item.giaSauGiam | currency:'VND':'' }}đ</span>
+                                    </div>
+                                    <div class="product_action">
+                                        <ul>
+                                            <li class="product_cart">
+                                                <a (click)="addToCart(item.maSP)" title="Thêm vào giỏ">Thêm vào giỏ</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>     
+                            </div>
+                        </div>
+                    </div>
+                </div>    
+
+                <!--pagination start--> 
+                <div class="col-12">
+                    <div class="pagination justify-content-center">
+                        <pagination-controls class="pagination-controls" (pageChange)="getBySearch($event)" (pageBoundsCorrection)="getBySearch($event)" previousLabel="Trước" nextLabel="Sau">
+                        </pagination-controls>
+                    </div>
+                </div>
+                <!--pagination end--> 
+
+                <!--shop tab product end-->
+            </div>
+        </div>
+    </div>
+</div>
+<!--search area-->

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gateway", "Gateway\Gateway.csproj", "{64AAABB4-EEE8-4BA4-838B-B9B1306F5CBB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{64AAABB4-EEE8-4BA4-838B-B9B1306F5CBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64AAABB4-EEE8-4BA4-838B-B9B1306F5CBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64AAABB4-EEE8-4BA4-838B-B9B1306F5CBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64AAABB4-EEE8-4BA4-838B-B9B1306F5CBB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3C29BC5E-55FA-4B54-92FD-9E74B9263E18}
+	EndGlobalSection
+EndGlobal

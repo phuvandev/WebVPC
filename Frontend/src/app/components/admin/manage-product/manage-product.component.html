@@ -1,0 +1,465 @@
+<!-- Main Content -->
+<div class="main-content">
+    <section class="section">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <div class="page-sub-header mb-4">
+                        <h4 class="page-title">Quản lý sản phẩm</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="col-7">
+                            <button class="btn btn-primary btn-sm" title="Thêm sản phẩm mới" data-toggle="modal" data-target="#modal-create" (click)="showCreate()">
+                                <i class="fas fa-plus"></i> Thêm
+                            </button>
+                            <button class="btn btn-info btn-sm" title="Xem chi tiết sản phẩm" data-toggle="modal" data-target="#modal-detail" (click)="showDetail()">
+                                <i class="fas fa-eye"></i> Xem
+                            </button>
+                            <button class="btn btn-warning btn-sm" title="Sửa thông tin sản phẩm" data-toggle="modal" data-target="#modal-update" (click)="showUpdate()">
+                                <i class="fas fa-edit"></i> Sửa
+                            </button>
+                            <button class="btn btn-danger btn-sm" title="Xóa sản phẩm" data-toggle="modal" data-target="#modal-delete" (click)="showDelete()" (click)="delete()">
+                                <i class="fas fa-trash-alt"></i> Xóa
+                            </button>
+                        </div>
+                        <div class="col-5">
+                            <div class="search_bar_admin">
+                                <input placeholder="Tìm kiếm sản phẩm..." type="search" [(ngModel)]="search">
+                                <button type="button" (click)="getListProduct(1)"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body" #scroll>
+                        <div class="section-title table-responsive">
+                            <table class="table jambo_table table-bordered table-hover text-center">
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Sản phẩm</th>
+                                        <th>Ảnh sản phẩm</th>
+                                        <th>Giá bán & Phần trăm giảm</th>
+                                        <th>Giá sau giảm</th>
+                                        <th>Dòng sản phẩm</th>
+                                        <th>Trạng thái</th>
+                                    </tr>
+                                </thead>
+                                <tbody *ngFor="let item of ListProduct | paginate: { itemsPerPage: pageSize, currentPage: p, totalItems: totalItems } ; let i = index">
+                                    <tr (click)="onRowClick(item)" [class.selected]="selectedRow === item">
+                                        <td>{{ totalItems - ((p - 1) * pageSize + i) }}</td>
+                                        <td>{{ item.tenSP }}</td>
+                                        <td>
+                                            <img [src]="'data:image/jpg;base64,' + item.anhDaiDien" alt="{{ item.tenSP }}" class="img-fluid" width="120">
+                                        </td>
+                                        <td>
+                                            <s>{{ item.giaBan | currency:'VND':'' }}đ</s>&nbsp;<span class="badge badge-danger">- {{ item.phanTramGiamGia }}%</span>
+                                        </td>
+                                        <td class="text-success">{{ item.giaSauGiam | currency:'VND':'' }}đ</td>
+                                        <td>{{ item.tenDSP }}</td>
+                                        <td *ngIf="item.trangThai == 0">
+                                            <span class="badge badge-danger">Tạm ẩn</span>
+                                        </td>
+                                        <td *ngIf="item.trangThai == 1">
+                                            <span class="badge badge-success">Hiển thị</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--pagination start--> 
+                        <div class="col-12">
+                            <p style="font-size: 15px;">Tổng số bản ghi: <a style="color: red;">{{ totalItems }}</a></p>
+                            <div class="pagination justify-content-center">
+                                <pagination-controls class="pagination-controls" (pageChange)="getListProduct($event)" (pageBoundsCorrection)="getListProduct($event)" previousLabel="Trước" nextLabel="Sau">
+                                </pagination-controls>
+                            </div>
+                        </div>
+                        <!--pagination end--> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--modal-create-->
+    <div #modalCreate class="modal fade" id="modal-create" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true" >
+        <div class="modal-dialog modal-lg"> 
+            <form novalidate class="form-horizontal row-border">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5>Thêm sản phẩm mới</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cancel()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-7">
+                                <div class="form-group">
+                                    <label class="control-label">Tên sản phẩm: 
+                                        <a class="text-danger">(*)</a>
+                                    </label>
+                                    <div> 
+                                        <input type="text" class="form-control" name="TenSP" [(ngModel)]="TenSP"/> 
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Kích thước: 
+                                        <a class="text-danger">(*)</a>
+                                    </label>
+                                    <div> 
+                                        <input type="text" class="form-control" name="KichThuoc" [(ngModel)]="KichThuoc"/> 
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Chất liệu dây: 
+                                        <a class="text-danger">(*)</a>
+                                    </label>
+                                    <div> 
+                                        <input type="text" class="form-control" name="ChatLieuDay" [(ngModel)]="ChatLieuDay"/> 
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Chống nước: 
+                                        <a class="text-danger">(*)</a>
+                                    </label>
+                                    <div> 
+                                        <input type="text" class="form-control" name="ChongNuoc" [(ngModel)]="ChongNuoc"/> 
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Ảnh sản phẩm: 
+                                        <a class="text-danger">
+                                            <i>(Đề xuất 600px x 600px) (*)</i>
+                                        </a>
+                                    </label>
+                                    <div>
+                                        <input type="file" #fileInputC class="form-control" (change)="onFileChange($event)"/> 
+                                        <img *ngIf="previewImageUrl" [src]="previewImageUrl" class="preview-image" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label class="control-label">Trọng lượng: 
+                                        <a class="text-danger">(*)</a>
+                                    </label>
+                                    <div> 
+                                        <input type="text" class="form-control" name="TrongLuong" [(ngModel)]="TrongLuong"/> 
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Mặt kính: 
+                                        <a class="text-danger">(*)</a>
+                                    </label>
+                                    <div> 
+                                        <input type="text" class="form-control" name="MatKinh" [(ngModel)]="MatKinh"/> 
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Loại máy: 
+                                        <a class="text-danger">(*)</a>
+                                    </label>
+                                    <div> 
+                                        <input type="text" class="form-control" name="LoaiMay" [(ngModel)]="LoaiMay"/> 
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Dòng sản phẩm: 
+                                        <a class="text-danger">(*)</a>
+                                    </label>
+                                    <div>
+                                        <select class="form-control" id="MaDSP" name="MaDSP" [(ngModel)]="MaDSP">
+                                            <option disabled selected value="">Chọn dòng sản phẩm</option>
+                                            <option *ngFor="let item of ListCategory" [value]="item.maDSP">{{ item.tenDSP }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label"> Trạng thái: 
+                                        <a class="text-danger">(*)</a>
+                                    </label>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="TrangThai" value="0" [(ngModel)]="TrangThai"> Tạm ẩn
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="TrangThai" value="1" [(ngModel)]="TrangThai"> Hiển thị
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label class="control-label">Mô tả: 
+                                            <a class="text-danger">(*)</a>
+                                        </label>
+                                        <div>
+                                            <angular-editor [placeholder]="'Nhập nội dung'" [config]="editorConfig" name="MoTa" [(ngModel)]="MoTa">
+                                            </angular-editor>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="reset" class="btn btn-primary">
+                            <i class="fa fa-sync-alt"></i> Làm mới
+                        </button>
+                        <button type="submit" class="btn btn-success" (click)="create()">
+                            <i class="fas fa-save"></i> Lưu
+                        </button>                            
+                        <button type="button" class="btn btn-dark" data-dismiss="modal" (click)="cancel()">
+                            <i class="fas fa-times-circle"></i> Thoát
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--modal-create-->
+    
+    <!--modal-detail-->
+    <div #modalDetail class="modal fade" id="modal-detail" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true" *ngIf="openModal">
+        <div class="modal-dialog modal-lg"> 
+            <form novalidate class="form-horizontal row-border">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5>Chi tiết sản phẩm</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cancel()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <img [src]="'data:image/jpg;base64,' + AnhDaiDien" alt="{{ TenSP }}" class="img-fluid rounded img-thumbnail" style="width: 300px; display: block; margin-left: auto; margin-right: auto;">
+                                </div>
+                                <!-- Details Column -->
+                                <div class="col-md-6">
+                                    <h4>{{ TenSP }}</h4>
+                                    <p><strong>Dòng sản phẩm: </strong>{{ TenDSP }}</p>
+                                    <p>
+                                        <strong>Giá bán: </strong> <s> {{ GiaBan | currency:'VND':'' }}đ</s>
+                                        <span class="badge badge-danger">- {{ PhanTramGiamGia }}%</span>
+                                    </p> 
+                                    <p><strong>Giá sau giảm: </strong> {{ GiaSauGiam | currency:'VND':'' }}đ</p>
+                                    <p><strong>Số lượng: </strong> {{ SoLuong }}</p>
+                                    <p><strong>Ngày tạo: </strong> {{ NgayTao | date:'HH:mm:ss dd/MM/yyyy' }} </p>
+                                    <p><strong>Trạng thái: </strong>
+                                        <span *ngIf="TrangThai == '0'" class="badge badge-danger">Tạm ẩn</span>
+                                        <span *ngIf="TrangThai == '1'" class="badge badge-success">Hiển thị</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <br>
+                                <p><strong>Mô tả: </strong></p>
+                                <div class="custom-image2" [innerHTML]="MoTa"></div>
+                            </div>
+                        </div>
+                        <hr>
+                        <h4 class="text-center">Thông số kỹ thuật</h4>
+                        <table id="datatable-buttons" class="table jambo_table table-bordered table-hover"  style="text-align: center;">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">STT</th>
+                                    <th class="text-center">Tên thông số</th>
+                                    <th class="text-center">Mô tả</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Kích thước</td>
+                                    <td>{{ KichThuoc }}</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Trọng lượng</td>
+                                    <td>{{ TrongLuong }}</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Mặt kính</td>
+                                    <td>{{ MatKinh }}</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>Chất liệu dây</td>
+                                    <td>{{ ChatLieuDay }}</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>Chống nước</td>
+                                    <td>{{ ChongNuoc }}</td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td>Loại máy</td>
+                                    <td>{{ LoaiMay }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-dark" data-dismiss="modal" (click)="cancel()">
+                            <i class="fas fa-times-circle"></i> Thoát
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--modal-detail-->
+
+    <!--modal-update-->
+    <div #modalUpdate class="modal fade" id="modal-update" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true" *ngIf="openModal">
+        <div class="modal-dialog modal-lg"> 
+            <form novalidate class="form-horizontal row-border">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5>Sửa thông tin sản phẩm</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cancel()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-7">
+                                <div class="form-group">
+                                    <label class="control-label">Tên sản phẩm: 
+                                        <a class="text-danger">(*)</a>
+                                    </label>
+                                    <div> 
+                                        <input type="text" class="form-control" name="TenSP" [(ngModel)]="TenSP"/> 
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Kích thước: 
+                                        <a class="text-danger">(*)</a>
+                                    </label>
+                                    <div> 
+                                        <input type="text" class="form-control" name="KichThuoc" [(ngModel)]="KichThuoc"/> 
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Chất liệu dây: 
+                                        <a class="text-danger">(*)</a>
+                                    </label>
+                                    <div> 
+                                        <input type="text" class="form-control" name="ChatLieuDay" [(ngModel)]="ChatLieuDay"/> 
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Chống nước: 
+                                        <a class="text-danger">(*)</a>
+                                    </label>
+                                    <div> 
+                                        <input type="text" class="form-control" name="ChongNuoc" [(ngModel)]="ChongNuoc"/> 
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Ảnh sản phẩm: 
+                                        <a class="text-danger">
+                                            <i>(Đề xuất 600px x 600px) (*)</i>
+                                        </a>
+                                    </label>
+                                    <div>
+                                        <input type="file" #fileInputU class="form-control" (change)="onFileChange($event)"/> 
+                                        <img *ngIf="previewImageUrl" [src]="previewImageUrl" class="preview-image" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label class="control-label">Trọng lượng: 
+                                        <a class="text-danger">(*)</a>
+                                    </label>
+                                    <div> 
+                                        <input type="text" class="form-control" name="TrongLuong" [(ngModel)]="TrongLuong"/> 
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Mặt kính: 
+                                        <a class="text-danger">(*)</a>
+                                    </label>
+                                    <div> 
+                                        <input type="text" class="form-control" name="MatKinh" [(ngModel)]="MatKinh"/> 
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Loại máy: 
+                                        <a class="text-danger">(*)</a>
+                                    </label>
+                                    <div> 
+                                        <input type="text" class="form-control" name="LoaiMay" [(ngModel)]="LoaiMay"/> 
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Dòng sản phẩm: 
+                                        <a class="text-danger">(*)</a>
+                                    </label>
+                                    <div>
+                                        <select class="form-control" id="MaDSP" name="MaDSP" [(ngModel)]="MaDSP">
+                                            <option disabled selected value="">Chọn dòng sản phẩm</option>
+                                            <option *ngFor="let item of ListCategory" [value]="item.maDSP">{{ item.tenDSP }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label"> Trạng thái: </label>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="TrangThai" value="0" [(ngModel)]="TrangThai"> Tạm ẩn
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="TrangThai" value="1" [(ngModel)]="TrangThai"> Hiển thị
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label class="control-label">Mô tả: 
+                                            <a class="text-danger">(*)</a>
+                                        </label>
+                                        <div>
+                                            <angular-editor [placeholder]="'Nhập nội dung'" [config]="editorConfig" name="MoTa" [(ngModel)]="MoTa">
+                                            </angular-editor>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success" (click)="update()">
+                            <i class="fas fa-save"></i> Lưu
+                        </button>                            
+                        <button type="button" class="btn btn-dark" data-dismiss="modal" (click)="cancel()">
+                            <i class="fas fa-times-circle"></i> Thoát
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--modal-update-->
+
+</div>
+<!-- Main Content -->

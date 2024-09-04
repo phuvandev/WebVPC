@@ -1,0 +1,105 @@
+<!--header start-->
+<header class="header_area">
+    <div class="header_top">
+        <div class="container">   
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-6">
+                    <div class="welcome_text">
+                        <p>Chào mừng đến với <a class="text-primary" routerLink="/">{{ NameWebsite }}</a></p>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="top_right text-end">
+                        <ul>
+                            <li *ngIf="user.maQuyen == 1"><a routerLink="/admin"><i class="fa fa-user-secret"></i> Admin</a></li>
+                            <li *ngIf="!user"><a routerLink="/dang-nhap"><i class="fa fa-user"></i> Đăng nhập</a></li>
+                            <li *ngIf="user"><a (click)="taiKhoan()"><i class="fa fa-user"></i> Tài khoản</a></li>
+                            <li class="location"><a routerLink="/lien-he"><i class="fa fa-map-marker"></i> Cửa hàng</a></li> 
+                        </ul>
+                    </div>   
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header_middle">
+        <div class="container">
+            <div class="row align-items-center" >
+                <div class="col-lg-3 col-md-4">
+                    <div class="logo">
+                        <a routerLink="/"><img [src]="'data:image/jpg;base64,' + LogoWebsite" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-md-5">
+                    <div class="search_bar">
+                        <form action="">
+                            <input placeholder="Tìm kiếm tên sản phẩm..." type="search" name="key" [(ngModel)]="key">
+                            <button (click)="search()"><i class="fa fa-search"></i></button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-3">
+                    <div class="cart_area">
+                        <div class="contact_phone">
+                            <div class="contact_icone">
+                                <i class="fa fa-phone"></i>
+                            </div>
+                            <div class="contact_number">
+                                <p>Liên hệ</p>
+                                <span><a href="tel:{{ PhoneWebsite }}">{{ PhoneWebsite }}</a></span>
+                            </div>
+                        </div>
+                        <div class="cart_link">
+                            <i class="fa fa-shopping-basket"></i>
+                            <a routerLink = "/gio-hang">Giỏ hàng</a>
+                            <span class="cart_count">{{ count }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header_bottom sticky-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-5">
+                    <div class="categories_menu">
+                        <div class="categories_title" (click)="toggleNavbar()">
+                            <h2 class="categori_toggle"> Danh mục</h2>
+                        </div>
+                        <div class="categories_menu_inner">
+                            <ul>
+                                <li *ngFor="let item of ListCategory">
+                                    <a routerLink = "/dong-san-pham/{{item.maDSP}}">{{ item.tenDSP }}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9 position-relative">
+                    <div class="main_menu_inner">
+                        <div class="main_menu d-none d-lg-block"> 
+                            <!-- Template HTML -->
+                            <ul>
+                                <li *ngFor="let item of ListMenu; let i = index">
+                                    <a routerLink = "{{ item.link }}">{{ item.tenMenu }}</a>
+                                </li>
+                            </ul>
+  
+                        </div>
+                        <div class="mobile-menu d-lg-none">
+                            <nav>  
+                                <ul>
+                                    <li *ngFor="let item of ListMenu; let i = index">
+                                        <a routerLink = "{{ item.link }}">{{ item.tenMenu }}</a>
+                                    </li>
+                                </ul>
+                            </nav>      
+                        </div>
+                    </div> 
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</header>
+<!--header end-->

@@ -1,0 +1,88 @@
+<!--checkout page section-->
+<div class="checkout_section">
+    <div class="container">
+        <h1>Thanh toán</h1>
+        <div class="checkout_form">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <h3 class="mb-4">Chi tiết thanh toán</h3>
+                    <div class="row">
+                        <div class="col-lg-12 mb-20">
+                            <label>Họ và tên: <span class="text-danger">(*)</span></label>
+                            <input type="text" name="TenKH" [(ngModel)]="TenKH">    
+                        </div>
+                        <div class="col-lg-6 mb-20">
+                            <label>Email: <span class="text-danger">(*)</span></label>
+                            <input type="text" name="Email" [(ngModel)]="Email">     
+                        </div>
+                        <div class="col-lg-6 mb-20">
+                            <label>Số điện thoại: <span class="text-danger">(*)</span></label>
+                            <input type="text" name="SDT" [(ngModel)]="SDT">     
+                        </div>
+                        <div class="col-12 mb-20">
+                            <label>Địa chỉ nhận hàng: <span class="text-danger">(*)</span></label>
+                            <input type="text" name="DiaChiGiaoHang" [(ngModel)]="DiaChiGiaoHang">     
+                        </div>
+                        <div class="col-12">
+                            <div class="order-notes">
+                                <label for="order_note">Ghi chú (nếu có)</label>
+                                <textarea placeholder="Ghi chú của bạn" name="GhiChu" [(ngModel)]="GhiChu"></textarea>
+                            </div>    
+                        </div>     	    	    	    	    	    	    
+                    </div>  
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <h3>Đơn hàng của bạn</h3> 
+                    <div class="order_table table-responsive mb-30">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Sản phẩm</th>
+                                    <th>Thành tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let item of ListCart">
+                                <tr>
+                                    <td>{{ item.TenSP }}<strong> × {{ item.SoLuong }}</strong></td>
+                                    <td>{{ item.SoLuong * item.GiaBan | currency:'VND':'' }}đ</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr *ngIf = "!PhuongThucThanhToan">
+                                    <th>Phương thức thanh toán</th>
+                                    <td><strong></strong></td>
+                                </tr>
+                                <tr *ngIf = "PhuongThucThanhToan === 'Giao hàng tận nơi'">
+                                    <th>Phương thức thanh toán</th>
+                                    <td><strong>Giao hàng tận nơi</strong></td>
+                                </tr>
+                                <tr *ngIf = "PhuongThucThanhToan === 'Chuyển khoản'">
+                                    <th>Phương thức thanh toán</th>
+                                    <td><strong>Chuyển khoản</strong></td>
+                                </tr>
+                                <tr class="order_total">
+                                    <th>Tổng tiền</th>
+                                    <td><strong>{{ TotalPrice | currency:'VND':'' }}đ</strong></td>
+                                </tr>
+                            </tfoot>
+                        </table>     
+                    </div>
+                    <div class="payment_method">
+                        <div class="panel-default">
+                            <p>Vui lòng chọn phương thức thanh toán:</p>
+                            <input type="radio" name="PhuongThucThanhToan" [(ngModel)]="PhuongThucThanhToan" value="Giao hàng tận nơi">
+                            <label for="payment_defult">Giao hàng tận nơi</label>
+                            <div class="clearfix"></div>
+                            <input type="radio" name="PhuongThucThanhToan" [(ngModel)]="PhuongThucThanhToan" value="Chuyển khoản">
+                            <label for="payment_defult">Khác &nbsp;&nbsp;&nbsp;<img src="/assets/client/img/vnpay.png" alt="vnpay-payment"></label>
+                        </div>
+                    </div> 
+                    <div class="order_button mt-3">
+                        <button (click)="orderNow()">Đặt hàng</button> 
+                    </div>      
+                </div>
+            </div> 
+        </div> 
+    </div>       
+</div>
+<!--checkout page section end-->
